@@ -1,0 +1,55 @@
+package com.timesheet.demo.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import com.timesheet.demo.model.TeamLead;
+import com.timesheet.demo.services.ITeamLeadService;
+
+
+@RestController
+@RequestMapping("/teamLead")
+@CrossOrigin
+public class TeamLeadController {
+
+	@Autowired
+	ITeamLeadService service;	
+
+	
+	@RequestMapping(method=RequestMethod.GET)
+	public List<TeamLead> getAllTeamLead()
+	{
+		return service.getAllTeamLead();
+	}
+	
+	@RequestMapping(value="/teamLead/{id}",method = RequestMethod.GET)
+	public TeamLead getTeamLeadById(@PathVariable("id") Integer id)
+	{
+		return service.getTeamLead(id);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public TeamLead createTeamLead(@RequestBody TeamLead teamLead)
+	{
+			return service.saveTeamLead(teamLead);
+	}
+	
+	@RequestMapping(method = RequestMethod.PUT)
+	public TeamLead updateTeamLead(@RequestBody TeamLead teamLead) 
+	{
+		return service.updateTeamLead(teamLead);
+	}
+	
+	@RequestMapping(value="/{id}",method = RequestMethod.DELETE)
+	public void deleteTeamLead(@PathVariable("id") Integer id)
+	{
+			 service.deleteTeamLeadById(id);
+	}
+
+}

@@ -1,0 +1,77 @@
+package com.timesheet.demo.model;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.CascadeType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.Data;
+@Entity
+@Table(name="project")
+@Data
+public class Project {
+	
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int idProject;
+	
+	private int idTeamLead;
+	private String nameTeamLead;
+	private String nameProject;
+	private Date startDateProject;
+	private Date durationProject;
+	
+	
+	/*
+	@ManyToMany
+	@JoinTable(
+	  name = "team_project", 
+	  joinColumns = @JoinColumn(name = "idProject"), 
+	  inverseJoinColumns = @JoinColumn(name = "idTeam"))
+	@JsonIgnore
+	private List<Team> teams;
+	*/
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "projects")
+	List<Employee> employees;
+	
+	/*
+	@ManyToMany(mappedBy = "projects")
+	List<Team> teams;
+	*/
+
+	/*
+	@ManyToMany
+	@JoinTable(
+	  name = "project_team", 
+	  joinColumns = @JoinColumn(name = "idTeam"), 
+	  inverseJoinColumns = @JoinColumn(name = "idProject"))	
+	private List<Team> teams;
+	*/
+	
+	  @ManyToMany
+	    @JoinTable(
+	            name = "project_team",
+	            joinColumns = @JoinColumn(name = "idProject"),
+	            inverseJoinColumns = @JoinColumn(name = "idTeam")
+	    )
+	    Set<Team> team_project = new HashSet<>();
+}

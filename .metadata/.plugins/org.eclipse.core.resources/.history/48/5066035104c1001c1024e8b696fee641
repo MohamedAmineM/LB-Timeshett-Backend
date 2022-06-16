@@ -1,0 +1,16 @@
+package com.timesheet.demo.services;
+
+import java.util.List;
+
+import com.timesheet.demo.model.Team;
+import com.timesheet.demo.model.TeamLead;
+
+public interface ITeamLeadService {
+	TeamLead saveTeamLead(TeamLead teamLead);
+	TeamLead updateTeamLead(TeamLead teamLead);
+	void deleteTeamLead(TeamLead teamLead);
+	void deleteTeamLeadById(Integer id);
+	TeamLead getTeamLead(Integer id);
+	List<TeamLead> getAllTeamLead();
+
+}

@@ -1,0 +1,149 @@
+package com.timesheet.demo.services;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.timesheet.demo.model.DétailsPointage;
+import com.timesheet.demo.model.Pointage;
+import com.timesheet.demo.repostitories.IDétailsPointageRepository;
+import com.timesheet.demo.repostitories.IPointageRepository;
+
+import net.bytebuddy.description.ModifierReviewable.OfAbstraction;
+@Service
+public class PointageService implements IPointageService {
+
+	@Autowired
+	IPointageRepository repository;
+	
+	@Autowired
+	IDétailsPointageRepository repositoryDetailsPointage;
+	
+	
+	
+	@Override
+	public Pointage savePointage(Pointage pointage) {
+		return repository.save(pointage);
+	}
+
+	@Override
+	public Pointage updatePointage(Pointage pointage) {
+		return repository.save(pointage);
+	}
+
+	@Override
+	public void deletePointage(Pointage pointage) {
+		repository.delete(pointage);
+	}
+
+	@Override
+	public void deletePointageById(Integer id) {
+		repository.deleteById(id);
+	}
+
+	@Override
+	public Pointage getPointage(Integer id) {
+		return repository.findById(id).get();
+	}
+
+	@Override
+	public List<Pointage> getAllPointage() {
+		return repository.findAll();
+	}
+/*
+	@Override
+	public List<Pointage> getDetailsPointages() {
+		List<DétailsPointage> detailsPointages=repository.findAll();
+		List<Pointage> pointages =new ArrayList<Pointage>();
+		
+		detailsPointages.forEach(element->{
+			Pointage pointage=new Pointage();
+		/*	
+			pointage.setStartTimePointage(element.get);
+			pointage.setEndTimePointage(null);
+			repository.save(pointage);
+			pointages.add(pointage);
+		});
+		
+		
+		return pointages;
+	}
+	*/
+
+	@Override
+	public Pointage employeePointagePerDay(Integer idPointageEmployee, Date pointageDate) {
+		List<DétailsPointage> employeePointageDetails= repositoryDetailsPointage.findByIdPointageEmployeeAndPointageDateOrderByTimePointageAsc(idPointageEmployee,pointageDate);
+		Pointage pointage=new Pointage();
+		/*for(DétailsPointage element : employeePointageDetails) {		
+		
+			if (element[0].typePointage==element[1].typePointage) {
+				
+			}
+		}*/
+		
+		long timeInOffice=0;
+		int length=employeePointageDetails.size();
+		long totalTime=0;
+		long outTime=0;
+		long time1=0;
+		long time2=0;
+		
+        for(int i=0;i<length-1;i++)
+        {
+        	totalTime=((employeePointageDetails.get(length-1).getTimePointage()).getTime())-((employeePointageDetails.get(0).getTimePointage()).getTime());
+        	
+        	int a=employeePointageDetails.get(i).getTypePointage();
+        	int b=employeePointageDetails.get(i).getTypePointage();
+        	
+        	a=1;
+        	b=2;
+        	
+				if ( a == employeePointageDetails.get(i+1).getTypePointage() ) {
+				
+					employeePointageDetails.remove(i+1);
+				}
+				else if( b == employeePointageDetails.get(i+1).getTypePointage()){
+					
+					employeePointageDetails.remove(i);
+				}
+				
+				else {
+					
+						 time1 =(employeePointageDetails.get(i).getTimePointage()).getTime();
+						 time2 =(employeePointageDetails.get(i+1).getTimePointage()).getTime();
+						
+						timeInOffice+=(time2-time1);
+						System.out.println(time1);
+						System.out.println(time2);
+						System.out.println(timeInOffice);
+					 }
+				
+				outTime=(totalTime)-(timeInOffice);
+				System.out.println(outTime);
+		}
+        
+        
+		
+		pointage.setIdPointage(employeePointageDetails.get(0).getId());
+        pointage.setIdPointageEmployee(employeePointageDetails.get(0).getIdPointageEmployee());
+		pointage.setPointageDate(employeePointageDetails.get(0).getPointageDate());
+		pointage.setStartTimePointage(employeePointageDetails.get(0).getTimePointage());
+		pointage.setEndTimePointage(employeePointageDetails.get(length-1).getTimePointage());
+		pointage.setOutTimePointage(outTime);
+		pointage.setTotalTimePointage(totalTime);
+		
+		 
+         
+         
+		return pointage;
+	}
+	
+	/*
+	 * 
+	 */
+
+}

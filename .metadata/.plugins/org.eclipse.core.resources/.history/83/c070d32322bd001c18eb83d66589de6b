@@ -1,0 +1,5 @@
+package com.timesheet.demo.model;
+
+public class TeamLead {
+
+}

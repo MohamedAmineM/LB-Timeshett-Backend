@@ -1,0 +1,48 @@
+package com.timesheet.demo.model;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.CascadeType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Data;
+@Entity
+@Table(name="project")
+@Data
+public class Project {
+	
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int idProject;
+	
+	private int idTeamLead;
+	private String nameTeamLead;
+	private String nameProject;
+	private Date startDateProject;
+	private Date durationProject;
+	
+	
+	
+	@ManyToMany
+	@JoinTable(
+	  name = "team_project", 
+	  joinColumns = @JoinColumn(name = "idProject"), 
+	  inverseJoinColumns = @JoinColumn(name = "idTeam"))
+	@JsonIgnore
+	private List<Team> teams;
+	
+	
+	
+	
+}

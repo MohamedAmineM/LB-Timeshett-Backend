@@ -1,0 +1,134 @@
+package com.timesheet.demo.model;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Data;
+
+
+
+
+@Entity
+@Table(name="employees")
+@Data
+public class Employee {
+	
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer idEmployee;
+	
+	
+	private Integer cinEmployee;
+	private String phoneEmployee;
+	private String emailEmployee;
+	private String nameEmployee;
+	private Date date_embaucheEmployee;
+	private String password;
+	private boolean activeEmployee;
+	
+	
+	
+	
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "idEmployee")
+    private List<Salaire> salaires = new ArrayList<>();
+	
+	 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "idEmployee")
+    private List<Congés> congés = new ArrayList<>();
+	
+	
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "idEmployee")
+    private List<Absence> absences = new ArrayList<>();
+	
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "idEmployee")
+    private List<Pointage> pointages = new ArrayList<>();
+	
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "idEmployee")
+    private List<SpecificWorkTime> specificWorkTimes = new ArrayList<>();
+	
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "idEmployee")
+    private List<TaskJournaliére> taskJournaliéres = new ArrayList<>();
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+	  name = "team_employee", 
+	  joinColumns = @JoinColumn(name = "idEmployee"), 
+	  inverseJoinColumns = @JoinColumn(name = "idTeam"))
+	@JsonIgnore
+	private List<Team> teams;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+	  name = "jobTitle_employee", 
+	  joinColumns = @JoinColumn(name = "idEmployee"), 
+	  inverseJoinColumns = @JoinColumn(name = "idJobTitle"))
+	private List<JobTitle> jobTitles;
+	
+	
+	
+	
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+	  name = "profile_employee", 
+	  joinColumns = @JoinColumn(name = "idEmployee"), 
+	  inverseJoinColumns = @JoinColumn(name = "idprofile"))
+	
+	private List<Profile> profiles;
+	
+	
+    
+	public Employee() {}
+
+	
+	public Employee(String username, String email, String encode) {
+		// TODO Auto-generated constructor stub
+		this.nameEmployee=username;
+		this.emailEmployee=email;
+		this.password=encode;
+	}
+
+
+
+
+
+	
+
+
+
+
+	
+
+
+	
+
+
+	
+	
+
+}

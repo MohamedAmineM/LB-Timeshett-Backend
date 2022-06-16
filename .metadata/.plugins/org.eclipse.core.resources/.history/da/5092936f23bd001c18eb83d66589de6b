@@ -1,0 +1,51 @@
+package com.timesheet.demo.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.timesheet.demo.model.TeamLead;
+import com.timesheet.demo.repostitories.ITeamLeadRepository;
+
+
+public class TeamLeadService implements ITeamLeadService {
+
+	@Autowired
+	ITeamLeadRepository repository;
+	
+	@Override
+	public TeamLead saveTeamLead(TeamLead teamLead) {
+		
+		return repository.save(teamLead);
+	}
+
+	@Override
+	public TeamLead updateTeamLead(TeamLead teamLead) {
+		
+		return repository.save(teamLead);
+	}
+
+	@Override
+	public void deleteTeamLead(TeamLead teamLead) {
+		repository.delete(teamLead);
+		
+	}
+
+	@Override
+	public void deleteTeamLeadById(Integer id) {
+		repository.deleteById(id);
+		
+	}
+
+	@Override
+	public TeamLead getTeamLead(Integer id) {
+		return repository.findById(id).get();
+	}
+
+	@Override
+	public List<TeamLead> getAllTeamLead() {
+		
+		return repository.findAll();
+	}
+
+}

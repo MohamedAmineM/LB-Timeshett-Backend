@@ -1,0 +1,7 @@
+package com.timesheet.demo.model;
+
+
+
+public class DétailsPointage {
+
+}

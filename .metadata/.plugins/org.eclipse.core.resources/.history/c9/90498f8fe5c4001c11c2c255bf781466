@@ -1,0 +1,45 @@
+package com.timesheet.demo.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.timesheet.demo.model.Pointage;
+import com.timesheet.demo.repostitories.IPointageRepository;
+@Service
+public class PointageService implements IPointageService {
+
+	@Autowired
+	IPointageRepository repository;
+	@Override
+	public Pointage savePointage(Pointage pointage) {
+		return repository.save(pointage);
+	}
+
+	@Override
+	public Pointage updatePointage(Pointage pointage) {
+		return repository.save(pointage);
+	}
+
+	@Override
+	public void deletePointage(Pointage pointage) {
+		repository.delete(pointage);
+	}
+
+	@Override
+	public void deletePointageById(Integer id) {
+		repository.deleteById(id);
+	}
+
+	@Override
+	public Pointage getPointage(Integer id) {
+		return repository.findById(id).get();
+	}
+
+	@Override
+	public List<Pointage> getAllPointage() {
+		return repository.findAll();
+	}
+
+}
